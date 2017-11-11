@@ -1,18 +1,25 @@
 <?php
-    session_start();
-    require("conexion.php");
-    $nombre = $_GET['nom'];
-    $tipo_empleado = $_GET['tipo'];
-    $foto = $_GET['imagen'];
-
-  
-    
+  session_start();
+  $bandera=0;
+  $nombre = $_GET['nom'];
+  echo $bandera;
+  if($nombre != "")
+  {
+    $bandera=1;
+  }
+  if($bandera==0)
+  {
+    echo "<script>location.href='index.php'</script>";
+  }
+  $tipo_empleado = $_GET['tipo'];
+  $foto = $_GET['imagen'];
+  require("conexion.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>Maria Bonita</title>
+        <title>SimpleAdmin - Responsive Admin Dashboard Template</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
@@ -20,27 +27,8 @@
 
         <link rel="shortcut icon" href="assets/images/favicon.ico">
 
-        <!-- Plugins css-->
-        <link href="assets/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css" rel="stylesheet" />
-        <link rel="stylesheet" href="assets/plugins/switchery/switchery.min.css">
-        <link href="assets/plugins/select2/css/select2.min.css" rel="stylesheet" type="text/css" />
-        <link href="assets/plugins/timepicker/bootstrap-timepicker.min.css" rel="stylesheet">
-        <link href="assets/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css" rel="stylesheet">
-        <link href="assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet">
-        <link href="assets/plugins/clockpicker/css/bootstrap-clockpicker.min.css" rel="stylesheet">
-        <link href="assets/plugins/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-        <!-- Summernote css -->
-        <link href="assets/plugins/summernote/summernote.css" rel="stylesheet" />
-
-        <!-- DataTables -->
-        <link href="assets/plugins/datatables/jquery.dataTables.min.css" rel="stylesheet" type="text/css"/>
-        <link href="assets/plugins/datatables/buttons.bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <link href="assets/plugins/datatables/responsive.bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <link href="assets/plugins/datatables/scroller.bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <link href="assets/plugins/datatables/dataTables.colVis.css" rel="stylesheet" type="text/css"/>
-        <link href="assets/plugins/datatables/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css"/>
-        <link href="assets/plugins/datatables/fixedColumns.dataTables.min.css" rel="stylesheet" type="text/css"/>
-
+        <!--calendar css-->
+        <link href="assets/plugins/fullcalendar/css/fullcalendar.min.css" rel="stylesheet" />
 
         <!-- Bootstrap core CSS -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -70,7 +58,6 @@
                     </div>
                 </div>
 
-
                 <!-- Top navbar -->
                 <div class="navbar navbar-default" role="navigation">
                     <div class="container">
@@ -88,7 +75,7 @@
                             <ul class="nav navbar-nav hidden-sm hidden-xs top-navbar-items">
                                 <li><a href="#">About</a></li>
                                 <li><a href="#">Help</a></li>
-                                <li><a href="#">Contact</a></li>
+                                <li><a href="contactos.php?nom=<?php echo $nombre;?>&tipo=<?php echo$tipo_empleado;?>&imagen=<?php echo $foto;?>">Contactos</a></li>
                             </ul>
 
                             <!-- Top nav Right menu -->
@@ -227,6 +214,7 @@
             <!-- Page content start -->
             <div class="page-contentbar">
 
+                <!--left navigation start-->
                 <aside class="sidebar-navigation">
                     <div class="scrollbar-wrapper">
                         <div>
@@ -246,7 +234,7 @@
                             <!--- End User Detail box -->
 
                             <!-- Left Menu Start -->
-                            <ul class="metisMenu nav" id="side-menu">
+                             <ul class="metisMenu nav" id="side-menu">
                                 <li><a href="dashboard_Administrador.php?nom=<?php echo $nombre;?>&tipo=<?php echo$tipo_empleado;?>&imagen=<?php echo $foto;?>"><i class="ti-home"></i> Dashboard </a></li>
 
                                 <li><a href="javascript: void(0);" aria-expanded="true"><i class="mdi mdi-account"></i>Empleados<span class="fa arrow"></span></a>
@@ -259,16 +247,12 @@
                                 <li>
                                     <a href="javascript: void(0);" aria-expanded="true"><i class="mdi mdi-food-variant"></i> Menu<span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
-                                        <li><a href="registrar_productos_menu.php?nom=<?php echo $nombre;?>&tipo=<?php echo $tipo_empleado;?> &imagen=<?php echo $foto;?>">Insertar Producto</a></li>
-                                        <li><a href="modificar_productos_menu.php?nom=<?php echo $nombre;?>&tipo=<?php echo $tipo_empleado;?> &imagen=<?php echo $foto;?>">Modificar/Eliminar Producto</a></li>
+                                        <li><a href="registrar_productos_menu.php?nom=<?php echo $nombre;?>&tipo=<?php echo $tipo_empleado;?> &imagen=<?php echo $foto;?>">Nuevo Producto</a></li>
+                                        <li><a href="components-alerts.html">Modificar/Eliminar Producto</a></li>
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="javascript: void(0);" aria-expanded="true"><i class="mdi mdi-food-variant"></i> Ingredientes<span class="fa arrow"></span></a>
-                                    <ul class="nav-second-level nav" aria-expanded="true">
-                                        <li><a href="components-range-slider.html">Insertar Producto</a></li>
-                                        <li><a href="components-alerts.html">Modificar/Eliminar Producto</a></li>
-                                    </ul>
+                                  <a href="promociones.php?nom=<?php echo $nombre;?>&tipo=<?php echo$tipo_empleado;?>&imagen=<?php echo $foto;?>"><i class= "mdi mdi-currency-usd"></i> Promociones </a>
                                 </li>
                             </ul>
                         </div>
@@ -280,107 +264,121 @@
                 <div id="page-right-content">
 
                     <div class="container">
-
-
-                       
-
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <h4 class="header-title m-t-0">Calendar</h4>
+                            </div>
+                        </div> <!-- end row -->
 
                         <div class="row">
+                            <div class="col-lg-12">
 
-                            <div class="col-sm-12">
-                                <div class="p-20 m-b-20">
+                                <div class="m-t-10">
+                                    <div class="row m-b-30">
+                                        <div class="col-md-3">
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                    <a href="#" data-toggle="modal" data-target="#add-category" class="m-t-10 btn btn-lg btn-primary btn-block waves-effect m-t-20 waves-light">
+                                                        <i class="fa fa-plus"></i> Crear Nueva Promoción
+                                                    </a>
+                                                    <div id="external-events" class="m-t-20">
+                                                        <br>
+                                                        <p class="text-muted">Elige la promoción que desees en el día que se aplique</p>
+                                                        <div class="external-event bg-success" data-class="bg-success">
+                                                            <i class="mdi mdi-checkbox-blank-circle m-r-10 vertical-middle"></i>2x1
+                                                        </div>
+                                                        <div class="external-event bg-info" data-class="bg-info">
+                                                            <i class="mdi mdi-checkbox-blank-circle m-r-10 vertical-middle"></i>Tarde de damas
+                                                        </div>
+                                                        <div class="external-event bg-warning" data-class="bg-warning">
+                                                            <i class="mdi mdi-checkbox-blank-circle m-r-10 vertical-middle"></i>Café gratis en otra compra
+                                                        </div>
+                                                    </div>
 
-                                    <h4 class="header-title m-t-0">Registrar Empleado</h4>
-                                    <p class="text-muted font-13 m-b-10">
-                                        Favor de llenar los campos obligatorios
-                                    </p>
+                                                    <!-- checkbox -->
+                                                    <div class="checkbox checkbox-custom m-t-30">
+                                                        <input id="drop-remove" type="checkbox">
+                                                        <label for="drop-remove">
+                                                            Remove after drop
+                                                        </label>
+                                                    </div>
 
-                                    <div class="p-20 m-b-20">
-                                        <?php echo "<form action='modificar_productos_menu.php?nom=$nombre&tipo=$tipo_empleado&imagen=$foto' method='post' class='form-validation'>" ;?>
-                                            
-
-                                            <div class="m-b-20 table-responsive">
-                                                <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
-                                                    <thead>
-                                                        <tr>
-                                                            <th> </th>
-                                                            <th>Nombre </th>
-                                                            <th>Precio</th>
-                                                            <th>Descripción </th>
-                                                
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <?php
-                                                            $query = "SELECT * FROM menu";
-                                                            $resultado = mysqli_query($conexion,$query);
-                                                            while($fila = mysqli_fetch_array($resultado))
-                                                            {
-                                                                $nombre_producto = $fila['nombre'];
-                                                                $precio = $fila['precio'];
-                                                                $descripcion = $fila['descripcion'];
-                                                                echo"<tr>
-                                                                        <th>
-                                                                            <div class='radio radio-primary'>
-                                                                                <input type='radio' name='radio' id='radio' value='$nombre_producto'>
-                                                                                <label for='radio13'></label>
-                                                                            </div>
-                                                                        </th>
-                                                                        <th>$nombre_producto</th>
-                                                                        <th>$precio</th>
-                                                                        <th>$descripcion</th>
-                                                                    </tr>";
-                                                            }
-
-                                                            if(isset($_POST['registro']))
-                                                            {
-                                                                $radio = $_POST['radio'];
-                                                                $query = "SELECT * FROM menu";
-                                                                $resultado = mysqli_query($conexion,$query);
-                                                                while($fila = mysqli_fetch_array($resultado))
-                                                                {
-                                                                    $nombre_producto = $fila['nombre'];
-                                                                    if($radio == $nombre_producto)
-                                                                    {
-                                                                        echo "<script>location.href='formulario_modificar_menu.php?filtro=$nombre_producto&nom=$nombre&tipo=$tipo_emp&imagen=$foto'</script>";
-                                                                    }
-
-                                                                
-                                                                }
-                                                
-                                                            }
-                                                        ?>
-                                                    </tbody>
-                                                </table>
+                                                </div>
                                             </div>
-                                            <div class="form-group text-right m-b-0">
-                                                <input value ="Modificar" name="registro" class="btn btn-primary waves-effect waves-light" type="submit">
-                                                    
-                                                <button type="reset" class="btn btn-default waves-effect m-l-5">
-                                                    Cancel
-                                                </button>
-                                            </div>
-
-                                        </form>
-                                    </div>
-
+                                        </div> <!-- end col-->
+                                        <div class="col-md-9">
+                                            <div id="calendar"></div>
+                                        </div> <!-- end col -->
+                                    </div>  <!-- end row -->
                                 </div>
+
+                                <!-- BEGIN MODAL -->
+                                <div class="modal fade none-border" id="event-modal">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title">Añadir nueva promoción</h4>
+                                            </div>
+                                            <div class="modal-body p-20"></div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-success save-event waves-effect waves-light">Create event</button>
+                                                <button type="button" class="btn btn-danger delete-event waves-effect waves-light" data-dismiss="modal">Delete</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Modal Add Category -->
+                                <div class="modal fade none-border" id="add-category">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                                <h4 class="modal-title">Agregar promoción</h4>
+                                            </div>
+                                            <div class="modal-body p-20">
+                                                <form role="form">
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <label class="control-label">Nombre de la promoción</label>
+                                                            <input class="form-control form-white" placeholder="Enter name" type="text" name="category-name"/>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label class="control-label">Añadir código de color</label>
+                                                            <select class="form-control form-white" data-placeholder="Choose a color..." name="category-color">
+                                                                <option value="success">Success</option>
+                                                                <option value="danger">Danger</option>
+                                                                <option value="info">Info</option>
+                                                                <option value="primary">Primary</option>
+                                                                <option value="warning">Warning</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-danger waves-effect waves-light save-category" data-dismiss="modal">Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- END MODAL -->
                             </div>
-
-                            
-                        </div>
-                        <!-- end row -->
-
+                            <!-- end col-12 -->
+                        </div> <!-- end row -->
 
                     </div>
                     <!-- end container -->
 
                     <div class="footer">
                         <div class="pull-right hidden-xs">
-                            Powered By: Fher Torres.
+                            Project Completed <strong class="text-custom">39%</strong>.
                         </div>
                         <div>
-                            <strong>María Bonita</strong> - Copyright &copy; 2017
+                            <strong>Simple Admin</strong> - Copyright &copy; 2017
                         </div>
                     </div> <!-- end footer -->
 
@@ -400,58 +398,17 @@
         <script src="assets/js/metisMenu.min.js"></script>
         <script src="assets/js/jquery.slimscroll.min.js"></script>
 
-        <script src="assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.min.js"></script>
-        <script src="assets/plugins/select2/js/select2.min.js" type="text/javascript"></script>
-        <script src="assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js" type="text/javascript"></script>
-        <script src="assets/plugins/switchery/switchery.min.js"></script>
-        <script type="text/javascript" src="assets/plugins/parsleyjs/parsley.min.js"></script>
+        <!-- Jquery-Ui -->
+        <script src="assets/plugins/jquery-ui/jquery-ui.min.js"></script>
 
+        <!-- BEGIN PAGE SCRIPTS -->
         <script src="assets/plugins/moment/moment.js"></script>
-        <script src="assets/plugins/timepicker/bootstrap-timepicker.js"></script>
-        <script src="assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
-        <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-        <script src="assets/plugins/clockpicker/js/bootstrap-clockpicker.min.js"></script>
-        <script src="assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
-        <script src="assets/plugins/summernote/summernote.min.js"></script>
+        <script src='assets/plugins/fullcalendar/js/fullcalendar.min.js'></script>
+        <script src="assets/pages/jquery.fullcalendar.js"></script>
 
-        <script src="assets/plugins/datatables/jquery.dataTables.min.js"></script>
-        <script src="assets/plugins/datatables/dataTables.bootstrap.js"></script>
-        <script src="assets/plugins/datatables/dataTables.buttons.min.js"></script>
-        <script src="assets/plugins/datatables/buttons.bootstrap.min.js"></script>
-        <script src="assets/plugins/datatables/jszip.min.js"></script>
-        <script src="assets/plugins/datatables/pdfmake.min.js"></script>
-        <script src="assets/plugins/datatables/vfs_fonts.js"></script>
-        <script src="assets/plugins/datatables/buttons.html5.min.js"></script>
-        <script src="assets/plugins/datatables/buttons.print.min.js"></script>
-        <script src="assets/plugins/datatables/dataTables.keyTable.min.js"></script>
-        <script src="assets/plugins/datatables/dataTables.responsive.min.js"></script>
-        <script src="assets/plugins/datatables/responsive.bootstrap.min.js"></script>
-        <script src="assets/plugins/datatables/dataTables.scroller.min.js"></script>
-        <script src="assets/plugins/datatables/dataTables.colVis.js"></script>
-        <script src="assets/plugins/datatables/dataTables.fixedColumns.min.js"></script>
-
-        <!-- init -->
-        <script src="assets/pages/jquery.datatables.init.js"></script>
-
-        <!-- form advanced init js -->
-        <script src="assets/pages/jquery.form-advanced.init.js"></script>
 
         <!-- App Js -->
         <script src="assets/js/jquery.app.js"></script>
 
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $('.form-validation').parsley();
-                $('.summernote').summernote({
-                    height: 350,                 // set editor height
-                    minHeight: null,             // set minimum height of editor
-                    maxHeight: null,             // set maximum height of editor
-                    focus: false                 // set focus to editable area after initializing summernote
-                });
-            });
-
-        </script>
-
     </body>
 </html>
-

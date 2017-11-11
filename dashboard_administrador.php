@@ -1,9 +1,19 @@
 <?php
-    session_start();
-    $nombre = $_GET['nom'];
-    $tipo_empleado = $_GET['tipo'];
-    $foto = $_GET['imagen'];
-    require("conexion.php");
+  session_start();
+  $bandera=0;
+  $nombre = $_GET['nom'];
+  echo $bandera;
+  if($nombre != "")
+  {
+  	$bandera=1;
+  }
+  if($bandera==0)
+  {
+  	echo "<script>location.href='index.php'</script>";
+  }
+  $tipo_empleado = $_GET['tipo'];
+  $foto = $_GET['imagen'];
+  require("conexion.php");
 ?>
 
 <!DOCTYPE html>
@@ -64,7 +74,7 @@
 
                             <!-- Top nav left menu -->
                             <ul class="nav navbar-nav hidden-sm hidden-xs top-navbar-items">
-                                <li><a href="#">About</a></li>
+                                <li><a href="sobrenosotros.php?nom=<?php echo $nombre;?>&tipo=<?php echo$tipo_empleado;?>&imagen=<?php echo $foto;?>">Sobre Nosotros</a></li>
                                 <li><a href="#">Help</a></li>
                                 <li><a href="contactos.php?nom=<?php echo $nombre;?>&tipo=<?php echo$tipo_empleado;?>&imagen=<?php echo $foto;?>">Contactos</a></li>
                             </ul>
@@ -225,7 +235,7 @@
                             <!--- End User Detail box -->
 
                             <!-- Left Menu Start -->
-                            <ul class="metisMenu nav" id="side-menu">
+                             <ul class="metisMenu nav" id="side-menu">
                                 <li><a href="dashboard_Administrador.php?nom=<?php echo $nombre;?>&tipo=<?php echo$tipo_empleado;?>&imagen=<?php echo $foto;?>"><i class="ti-home"></i> Dashboard </a></li>
 
                                 <li><a href="javascript: void(0);" aria-expanded="true"><i class="mdi mdi-account"></i>Empleados<span class="fa arrow"></span></a>
@@ -239,7 +249,7 @@
                                     <a href="javascript: void(0);" aria-expanded="true"><i class="mdi mdi-food-variant"></i> Menu<span class="fa arrow"></span></a>
                                     <ul class="nav-second-level nav" aria-expanded="true">
                                         <li><a href="registrar_productos_menu.php?nom=<?php echo $nombre;?>&tipo=<?php echo $tipo_empleado;?> &imagen=<?php echo $foto;?>">Nuevo Producto</a></li>
-                                        <li><a href="components-alerts.html">Modificar/Eliminar Producto</a></li>
+                                        <li><a href="modificar_productos_menu.php?nom=<?php echo $nombre;?>&tipo=<?php echo $tipo_empleado;?> &imagen=<?php echo $foto;?>">Modificar/Eliminar Producto</a></li>
                                     </ul>
                                 </li>
                                 <li>
@@ -248,6 +258,9 @@
                                         <li><a href="components-range-slider.html">Insertar Producto</a></li>
                                         <li><a href="components-alerts.html">Modificar/Eliminar Producto</a></li>
                                     </ul>
+                                </li>
+                                <li>
+                                	<a href="promociones.php?nom=<?php echo $nombre;?>&tipo=<?php echo$tipo_empleado;?>&imagen=<?php echo $foto;?>"><i class= "mdi mdi-currency-usd"></i> Promociones </a>
                                 </li>
                             </ul>
                         </div>

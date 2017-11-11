@@ -16,6 +16,7 @@
       $correo_profile = $fila["correo"];
       $telefono_profile = $fila['telefono'];
       $password_profile = $fila['password'];
+      $notas_profile = $fila['notas'];
 
     }
 ?>
@@ -331,8 +332,9 @@
                                 		$telefono_profile = $_POST['telefono'];
                                 		$correo_profile = $_POST['correo'];
                                 		$password_profile = $_POST['contraseña1'];
+                                    $notas_profile = $_POST['content'];
 
-                                		$query = "UPDATE empleado SET nombre = '$nombre_profile',apellidos = '$apellido_profile', direccion = '$direccion_profile', telefono = '$telefono_profile', correo = '$correo_profile', password = '$password_profile'  where imagen= '$foto'";
+                                		$query = "UPDATE empleado SET nombre = '$nombre_profile',apellidos = '$apellido_profile', direccion = '$direccion_profile', telefono = '$telefono_profile', correo = '$correo_profile', password = '$password_profile', notas = '$notas_profile'  where imagen= '$foto'";
                                 		if($conexion->query($query) == true)
                                                 {
                                                 	echo "<script>location.href='edit_profile.php?nom=$nombre_profile&tipo=$tipo_empleado&imagen=$foto'</script>";
@@ -416,20 +418,7 @@
                                                 </div>
                                                 <div class="panel-body">
                                                     <h5 class="header-title text-uppercase">About</h5>
-                                                    <p>Lorem Ipsum is simply dummy text of the printing and typesetting
-                                                        industry. Lorem Ipsum has been the industry's standard dummy
-                                                        text ever since the 1500s, when an unknown printer took a galley
-                                                        of type and scrambled it to make a type specimen book. It has
-                                                        survived not only five centuries, but also the leap into
-                                                        electronic typesetting, remaining essentially unchanged.</p>
-
-                                                    <p><strong>But also the leap into electronic typesetting, remaining
-                                                        essentially unchanged.</strong></p>
-
-                                                    <p>It was popularised in the 1960s with the release of Letraset
-                                                        sheets containing Lorem Ipsum passages, and more recently with
-                                                        desktop publishing software like Aldus PageMaker including
-                                                        versions of Lorem Ipsum.</p>
+                                                    <p><?php echo $notas_profile ?></p>
 
                                                     <div class="">
 
@@ -527,15 +516,19 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="Password">Contraseña</label>
-                                                    <input type="password" id="contraseña1" name ="contraseña1" class="form-control" required>
+                                                    <input type="password" id="contraseña1" name ="contraseña1" class="form-control" required value="<?php echo $password_profile ?>">
                                                 </div>
                                                 <div class="form-group">
                                                 	<label for="contraseña2">Confirmar Contraseña</label>
-                                                	<input data-parsley-equalto="#contraseña1" type="password" required class="form-control" id="contraseña2" name = "contraseña2">
-                                            	</div>
-                                                <div class="form-group">
-                                                    <label for="AboutMe">About Me</label>
-                                                    <textarea style="height: 125px" id="AboutMe" class="form-control">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.</textarea>
+                                                	<input data-parsley-equalto="#contraseña1" type="password" required class="form-control" id="contraseña2" name = "contraseña2" value="<?php echo $password_profile ?>">
+                                            	   </div>
+                                                <div class="form-group" id="sum">
+                                                  <label for ="summernote">Biografia<span class="text-danger">*</span></label>
+                                                  <fieldset>
+                                                    <p class="container">
+                                                      <textarea class = "input-block-level" id="summernote" name ="content" rows="2"><?php echo $notas_profile ?></textarea>
+                                                    </p>
+                                                  </fieldset>
                                                 </div>
                                                 <input value ="Modificar" name="registro" class="btn btn-primary waves-effect waves-light" type="submit">
                                             </form>
@@ -576,6 +569,53 @@
 
         <!-- App Js -->
         <script src="assets/js/jquery.app.js"></script>
+
+        <!-- js placed at the end of the document so the pages load faster -->
+        <script src="assets/js/jquery-2.1.4.min.js"></script>
+        <script src="assets/js/bootstrap.min.js"></script>
+        <script src="assets/js/metisMenu.min.js"></script>
+        <script src="assets/js/jquery.slimscroll.min.js"></script>
+
+        <script src="assets/plugins/bootstrap-tagsinput/js/bootstrap-tagsinput.min.js"></script>
+        <script src="assets/plugins/select2/js/select2.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js" type="text/javascript"></script>
+        <script src="assets/plugins/switchery/switchery.min.js"></script>
+        <script type="text/javascript" src="assets/plugins/parsleyjs/parsley.min.js"></script>
+
+        <script src="assets/plugins/moment/moment.js"></script>
+        <script src="assets/plugins/timepicker/bootstrap-timepicker.js"></script>
+        <script src="assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+        <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+        <script src="assets/plugins/clockpicker/js/bootstrap-clockpicker.min.js"></script>
+        <script src="assets/plugins/bootstrap-daterangepicker/daterangepicker.js"></script>
+        <script src="assets/plugins/summernote/summernote.min.js"></script>
+
+        <!-- form advanced init js -->
+        <script src="assets/pages/jquery.form-advanced.init.js"></script>
+
+        <!-- App Js -->
+        <script src="assets/js/jquery.app.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('.form-validation').parsley();
+                $('.summernote').summernote({
+                    height: 350,                 // set editor height
+                    minHeight: null,             // set minimum height of editor
+                    maxHeight: null,             // set maximum height of editor
+                    focus: false                 // set focus to editable area after initializing summernote
+                });
+            });
+            $(document).ready(function(){
+                $('#summernote').summernote({
+                    height:"170px"
+                });
+            });
+
+            var postform = function(){
+                var content = $('textarea[name="content"]').html($('#summernote').code());
+            }
+        </script>
 
     </body>
 </html>

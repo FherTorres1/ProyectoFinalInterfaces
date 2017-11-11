@@ -283,6 +283,37 @@
                                     <p class="text-muted font-13 m-b-10">
                                         Favor de llenar los campos obligatorios
                                     </p>
+                                    <?php
+                                          if(isset($_POST['registro']))
+                                          {
+                                            $nombre_producto = $_POST["nombre_producto"];
+                                            $precio_producto = $_POST["precio_producto"];
+                                            $our_price = floatval($precio_producto);
+                                            $descripcion = $_POST["content"];
+
+                                            $query = "INSERT INTO Menu (nombre,precio,descripcion) VALUES ('$nombre_producto','$our_price','$descripcion')";
+                                            if($conexion->query($query) == true)
+                                            {
+                                              echo "<div class='alert alert-success alert-dismissible fade in' role='alert'>
+                                                                <button type='button' class='close' data-dismiss='alert'
+                                                                    aria-label='Close'>
+                                                                    <span aria-hidden='true'>&times;</span>
+                                                                </button>
+                                                                 Producto <strong>Registrado</strong> Satisfactoriamente.
+                                                            </div>";
+                                            }
+                                            else
+                                            {
+                                              echo "<div class='alert alert-success alert-dismissible fade in' role='alert'>
+                                                                <button type='button' class='close' data-dismiss='alert'
+                                                                    aria-label='Close'>
+                                                                    <span aria-hidden='true'>&times;</span>
+                                                                </button>
+                                                                 Algo ha sucedido <strong>mal</strong>. Favor de llamar al administrador.
+                                                            </div>";
+                                            }
+                                          }
+                                        ?>
 
                                     <div class="p-20 m-b-20">
                                         <?php echo "<form action='registrar_productos_menu.php?nom=$nombre&tipo=$tipo_empleado&imagen=$foto' method='post' class='form-validation'>" ;?>
@@ -296,14 +327,14 @@
                                                 <input type="text" name="precio_producto" parsley-trigger="change" required
                                                        placeholder="Ingresa Precio" class="form-control" id="precio_producto">
                                             </div>
-                                            <div class="row">
-                                                    <div class="p-20 m-b-20">
-                                                        <h4>Descripción</h4>
-                                                        <div class="summernote">
-                                                        </div>
-                                                  </div>
-                                            
-                                           </div>
+                                            <div class="form-group" id="sum">
+                                              <label for ="summernote">Descripción<span class="text-danger">*</span></label>
+                                              <fieldset>
+                                                  <p class="container">
+                                                    <textarea class = "input-block-level" id="summernote" name ="content" rows="2"></textarea>
+                                                  </p>
+                                              </fieldset>
+                                            </div>
                                             <div class="form-group text-right m-b-0">
                                                 <input value ="Registrar" name="registro" class="btn btn-primary" type="submit">
                                                     
@@ -313,24 +344,6 @@
                                             </div>
 
                                         </form>
-                                        <?php
-                                          if(isset($_POST['registro']))
-                                          {
-                                            $nombre_producto = $_POST["nombre_producto"];
-                                            $precio_producto = $_POST["precio_producto"];
-                                            $our_price = floatval($precio_producto);
-
-                                            $query = "INSERT INTO Menu (nombre,precio) VALUES ('$nombre_producto','$our_price')";
-                                            if($conexion->query($query) == true)
-                                            {
-                                              echo "Si";
-                                            }
-                                            else
-                                            {
-                                              echo "No";
-                                            }
-                                          }
-                                        ?>
                                     </div>
 
                                 </div>
@@ -399,6 +412,15 @@
                     focus: false                 // set focus to editable area after initializing summernote
                 });
             });
+            $(document).ready(function(){
+                $('#summernote').summernote({
+                    height:"170px"
+                });
+            });
+
+            var postform = function(){
+                var content = $('textarea[name="content"]').html($('#summernote').code());
+            }
         </script>
 
     </body>

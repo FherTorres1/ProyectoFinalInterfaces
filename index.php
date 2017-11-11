@@ -37,7 +37,7 @@
                                 <div class="text-center">
                                     <h2 class="text-uppercase m-t-0 m-b-30">
                                         <a href="#" class="text-success">
-                                            <span><img src="assets/images/logoM.jpg" alt="" height="100"></span>
+                                            <span><img src="assets/images/logoM.png" alt="" height="100"></span>
                                         </a>
                                     </h2>
                                     <!--<h4 class="text-uppercase font-bold m-b-0">Sign In</h4>-->

@@ -297,11 +297,11 @@
                                             $fecha_nuevo = $_POST["fecha_nuevo"];
                                             $usuario_nuevo = $_POST["usuario_nuevo"];
                                             $password = $_POST["contraseña1"];
-                                            $notas = $_POST["notas"];
+                                            $notas = $_POST["content"];
 
                                             $date = new DateTime($fecha_nuevo);
                                             $date = date_format($date,"Y-m-d");
-                                            $query = "INSERT INTO empleado (nombre,apellidos,direccion,telefono,correo,tipo,fecha_nac, usuario, password, imagen) VALUES ('$nombre_nuevo','$apellido_nuevo','$direccion_nuevo','$telefono_nuevo','$correo_nuevo','$tipo_nuevo','$date','$usuario_nuevo','$password','imagen_$nombre_nuevo.jpg')";
+                                            $query = "INSERT INTO empleado (nombre,apellidos,direccion,telefono,correo,tipo,fecha_nac, usuario, password, imagen,notas) VALUES ('$nombre_nuevo','$apellido_nuevo','$direccion_nuevo','$telefono_nuevo','$correo_nuevo','$tipo_nuevo','$date','$usuario_nuevo','$password','imagen_$nombre_nuevo.jpg','$notas')";
                                             if($conexion->query($query) == true)
                                             {
                                               echo "<div class='alert alert-success alert-dismissible fade in' role='alert'>
@@ -319,7 +319,7 @@
                                                                     aria-label='Close'>
                                                                     <span aria-hidden='true'>&times;</span>
                                                                 </button>
-                                                                 Empleado <strong>Eliminador</strong> Satisfactoriamente.
+                                                                 Algo ha sucedido <strong>mal</strong>. Favor de llamar al administrador.
                                                             </div>";
                                             }
                                           }
@@ -470,6 +470,15 @@
                     focus: false                 // set focus to editable area after initializing summernote
                 });
             });
+            $(document).ready(function(){
+                $('#summernote').summernote({
+                    height:"170px"
+                });
+            });
+
+            var postform = function(){
+                var content = $('textarea[name="content"]').html($('#summernote').code());
+            }
         </script>
 
     </body>

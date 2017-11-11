@@ -1,24 +1,33 @@
 <?php
     session_start();
+    require("conexion.php");
     $nombre = $_GET['nom'];
     $tipo_empleado = $_GET['tipo'];
     $foto = $_GET['imagen'];
-    require("conexion.php")
+    $filtro = $_GET['filtro'];
+    $query = "SELECT * FROM menu where nombre='$filtro'";
+    $resultado = mysqli_query($conexion,$query);
+    $id_producto = "";
+    while($fila = mysqli_fetch_array($resultado))
+    {
+        $id_producto = $fila['id_producto'];
+        $nombre_producto = $fila['nombre'];
+        $precio_producto = $fila['precio'];
+        $descripcion_producto = $fila['descripcion'];
+    }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="utf-8" />
-        <title>SimpleAdmin - Responsive Admin Dashboard Template</title>
+        <title>Maria Bonita</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
         <meta content="Coderthemes" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
         <link rel="shortcut icon" href="assets/images/favicon.ico">
-
-        <!-- Sweet Alert -->
-        <link href="assets/plugins/sweet-alert2/sweetalert2.min.css" rel="stylesheet" type="text/css">
 
         <!-- Plugins css-->
         <link href="assets/plugins/bootstrap-tagsinput/css/bootstrap-tagsinput.css" rel="stylesheet" />
@@ -60,6 +69,7 @@
                         </a>
                     </div>
                 </div>
+
 
                 <!-- Top navbar -->
                 <div class="navbar navbar-default" role="navigation">
@@ -217,7 +227,7 @@
             <!-- Page content start -->
             <div class="page-contentbar">
 
-               <aside class="sidebar-navigation">
+                <aside class="sidebar-navigation">
                     <div class="scrollbar-wrapper">
                         <div>
                             <button type="button" class="button-menu-mobile btn-mobile-view visible-xs visible-sm">
@@ -280,217 +290,72 @@
                             <div class="col-sm-12">
                                 <div class="p-20 m-b-20">
 
-                                    <h4 class="header-title m-t-0">Modificar Empleado</h4>
+                                    <h4 class="header-title m-t-0">Registrar Empleado</h4>
                                     <p class="text-muted font-13 m-b-10">
-                                        Elige un empleado.
+                                        Favor de llenar los campos obligatorios
                                     </p>
+                                    <?php
+                                          if(isset($_POST['registro']))
+                                          {
+                                            $id_producto = $_POST['id_producto'];
+                                            echo $id_producto;
+                                            $nombre_producto = $_POST["nombre_producto"];
+                                            $precio_producto = $_POST["precio_producto"];
+                                            $our_price = floatval($precio_producto);
+                                            $descripcion = $_POST["content"];
 
-                                    <?php 
-                                            $query = "SELECT * FROM empleado where activo = 1";
-                                            $resultado = mysqli_query($conexion,$query);
-                                            $option = "";
-                                            $filtro = "";
-                                            while($fila = mysqli_fetch_array($resultado))
+                                            $query = "UPDATE menu SET nombre = '$nombre_producto', precio = '$our_price', descripcion = '$descripcion' where id_producto = $id_producto";
+                                            if($conexion->query($query) == true)
                                             {
-                                                $option = $option."<option>$fila[0] $fila[1]</option>";
-
+                                              echo "<script>location.href='modificar_productos_menu.php?nom=$nombre&tipo=$tipo_emp&imagen=$foto'</script>";
                                             }
-                                            $id_empleado = "";
-                                            $nombre_empleado="";
-                                            $apellido_empleado="";
-                                            $direccion_empleado= "";
-                                            $telefono_empleado = "";
-                                            $correo_empleado = "";
-                                            $tipo = "";
-                                            $date = "";
-                                            $usuario_empleado = "";
-                                            $password_empleado= "";
-                                            $notas = "";
-                                            if(isset($_POST['buscar']))
+                                            else
                                             {
-                                                $filtro = $_POST["empleado"];
-                                                $query = "SELECT * FROM empleado where id_empleado = '$filtro'";
-                                                $resultado = mysqli_query($conexion,$query);
-                                                while($fila = mysqli_fetch_array($resultado))
-                                                {
-                                                    $id_empleado = $fila[0];
-                                                    $nombre_empleado = $fila[1];
-                                                    $apellido_empleado = $fila[2];
-                                                    $direccion_empleado = $fila[3];
-                                                    $telefono_empleado = $fila[4];
-                                                    $correo_empleado = $fila[5];
-                                                    $tipo = $fila[6];
-                                                    $fecha_empleado = $fila[7];
-                                                    $d = new DateTime($fecha_empleado);
-                                                    $date = date_format($d,"d-m-Y");
-                                                    $usuario_empleado = $fila[8];
-                                                    $password_empleado = $fila[9];
-                                                    $notas = $fila['notas'];
-                                                }
-
-                                            }
-                                            if(isset($_POST['registro']))
-                                            {
-                                                $id_empleado = $_POST["id_empleado"];
-                                                $nombre_empleado = $_POST["nombre"];
-                                                $apellido_empleado = $_POST["apellido"];
-                                                $direccion_empleado = $_POST["direccion"];
-                                                $telefono_empleado = $_POST["telefono"];
-                                                $correo_empleado = $_POST["correo"];
-                                                $tipo = $_POST["tipo"];
-                                                $fecha_empleaedo = $_POST["fecha_empleado"];
-                                                $usuario_empleado = $_POST["usuario"];
-                                                $password = $_POST["contraseña1"];
-                                                $notas = $_POST["content"];
-
-                                                $date = new DateTime($fecha_empleaedo);
-                                                $date = date_format($date,"Y-m-d");
-                                                
-                                                $query = "UPDATE empleado SET nombre = '$nombre_empleado',apellidos = '$apellido_empleado', direccion = '$direccion_empleado', telefono = '$telefono_empleado', correo = '$correo_empleado', tipo = '$tipo', fecha_nac = '$date',usuario = '$usuario_empleado', password = '$password', notas = '$notas'  where id_empleado= '$id_empleado'";
-                                                if($conexion->query($query) == true)
-                                                {
-                                                    echo "<div class='alert alert-success alert-dismissible fade in' role='alert'>
+                                              echo "<div class='alert alert-success alert-dismissible fade in' role='alert'>
                                                                 <button type='button' class='close' data-dismiss='alert'
                                                                     aria-label='Close'>
                                                                     <span aria-hidden='true'>&times;</span>
                                                                 </button>
-                                                                 Empleado <strong>Modificado</strong> Satisfactoriamente.
+                                                                 Algo ha sucedido <strong>mal</strong>. Favor de llamar al administrador.
                                                             </div>";
-                                                }
-                                                else
-                                                {
-                                                    echo "<div class='alert alert-icon alert-danger alert-dismissible fade in' role='alert'>
-                                                            <button type='button' class='close' data-dismiss='alert'
-                                                            aria-label='Close'>
-                                                                <span aria-hidden='true'>&times;</span>
-                                                            </button>
-                                                            <i class='mdi mdi-block-helper'></i>
-                                                            <strong>Algo salió mal</strong> Favor de llamar al Administrador";
-                                                }
                                             }
+                                          }
+                                        ?>
 
-                                            if(isset($_POST['eliminar']))
-                                            {
-                                                $id_empleado = $_POST["id_empleado"];
-                                                $query = "UPDATE empleado set activo = 0 where id_empleado = '$id_empleado'";
-                                                if($conexion->query($query) == true)
-                                                {
-                                                    echo "<div class='alert alert-success alert-dismissible fade in' role='alert'>
-                                                                <button type='button' class='close' data-dismiss='alert'
-                                                                    aria-label='Close'>
-                                                                    <span aria-hidden='true'>&times;</span>
-                                                                </button>
-                                                                 Empleado <strong>Eliminador</strong> Satisfactoriamente.
-                                                            </div>";
-
-                                                }
-                                                else
-                                                {
-                                                    echo "<div class='alert alert-icon alert-danger alert-dismissible fade in' role='alert'>
-                                                            <button type='button' class='close' data-dismiss='alert'
-                                                            aria-label='Close'>
-                                                                <span aria-hidden='true'>&times;</span>
-                                                            </button>
-                                                            <i class='mdi mdi-block-helper'></i>
-                                                            <strong>Algo salió mal</strong> Favor de llamar al Administrador";
-                                                }
-                                            }
-                                    ?>
-
-                                        <div class="form-group">
-                                            <?php echo "<form action='modificar_empleado.php?nom=$nombre&tipo=$tipo_empleado&imagen=$foto' method='post' class='form-validation'>";?>
-                                                <label for="empleado">Empleado</label>
-                                                <select class="select2 form-control" name ="empleado">
-                                                    <option value="<?php echo $option;?>"><?php echo $option;?></option>
-                                                </select>
-                                                <br>
-                                                <br>
-                                                <input value = "Buscar"  name = "buscar" class="btn btn-primary waves-effect waves-light" type="submit">
-                                            </>
-                                        </div>
-                                        <?php echo "<form action='modificar_empleado.php?nom=$nombre&tipo=$tipo_empleado&imagen=$foto'method='post' class='form-validation'>";?>
+                                    <div class="p-20 m-b-20">
+                                        <form method='post' class='form-validation'>"
                                             <div class="form-group">
-                                                <input type="hidden" name="id_empleado" parsley-trigger="change" required
-                                                       placeholder="" class="form-control" id="id_empleado" value ="<?php echo $id_empleado;?>">
-                                                <label for="nombre">Nombre(s)<span class="text-danger">*</span></label>
-                                                <input type="text" name="nombre" parsley-trigger="change" required
-                                                       placeholder="Ingresar nombre" class="form-control" id="nombre" value ="<?php echo $nombre_empleado;?>">
+                                                <input type="hidden" name="id_producto" parsley-trigger="change" required
+                                                        class="form-control" id="id_producto" value="<?php echo $id_producto?>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="apellido">Apellido(s)<span class="text-danger">*</span></label>
-                                                <input type="text" name="apellido" parsley-trigger="change" required
-                                                       placeholder="Ingresa Apellido" class="form-control" id="apellido" value="<?php echo $apellido_empleado;?>">
+                                                <label for="nombre">Nombre<span class="text-danger">*</span></label>
+                                                <input type="text" name="nombre_producto" parsley-trigger="change" required
+                                                       placeholder="Ingresar nombre" class="form-control" id="nombre_producto" value="<?php echo $nombre_producto?>">
                                             </div>
                                             <div class="form-group">
-                                                <label for="direccion">Dirección<span class="text-danger">*</span></label>
-                                                <input type="text" name="direccion" parsley-trigger="change" required
-                                                       placeholder="Ingresa Dirección" class="form-control" id="direccion" value = "<?php echo $direccion_empleado;?>">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="telefono">Teléfono<span class="text-danger">*</span></label>
-                                                <input type="text" name="telefono" parsley-trigger="change" required
-                                                       placeholder="Ingresa Apellido" class="form-control" id="telefono" value = "<?php echo $telefono_empleado;?>">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="correo">Correo Electrónico<span class="text-danger">*</span></label>
-                                                <input type="email" name="correo" parsley-trigger="change" required
-                                                       placeholder="Ingrese Correo Electrónico" class="form-control" id="correo" value = "<?php echo $correo_empleado;?>">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="empleado">Tipo de Empleado<span class="text-danger">*</span></label>
-                                                <select class="select2 form-control" name ="tipo">
-                                                    <option value="Empleado"<?php if ($tipo_empleado== "Empleado") echo "selected='selected'";?>>Empleado</option>
-                                                    <option value="Gerente" <?php if ($tipo_empleado== "Gerente") echo "selected='selected'";?> disabled="disabled">Gerente</option>
-                                                    <option value="Administrador"<?php if ($tipo_empleado== "Administrador") echo "selected='selected'";?>>Administrador</option>
-                                                </select>
-                                            </div>
-                                            <div class="form-group">
-                                                <label>Fecha de Nacimiento</label>
-                                                    <div>
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control" placeholder="mm/dd/yyyy" id="datepicker" name ="fecha_empleado" value = "<?php echo $date;?>">
-                                                            <span class="input-group-addon bg-custom b-0"><i class="mdi mdi-calendar text-white"></i></span>
-                                                        </div>
-                                                    </div>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="correo">Usuario<span class="text-danger">*</span></label>
-                                                <input type="text" name="usuario" parsley-trigger="change" required
-                                                       placeholder="Ingrese Correo Electrónico" class="form-control" id="usuario" value = "<?php echo $usuario_empleado;?>">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="contraseña1">Contraseña <span class="text-danger">*</span></label>
-                                                <input id="contraseña1" type="password" placeholder="Ingresar Contraseña" required
-                                                       class="form-control" name = "contraseña1" value = "<?php echo $password_empleado;?>">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="contraseña2">Confirmar Contraseña <span class="text-danger">*</span></label>
-                                                <input data-parsley-equalto="#contraseña1" type="password" required
-                                                       placeholder="Repetir Contraseña" class="form-control" id="contraseña2" value = "<?php echo $password_empleado;?>">
+                                                <label for="apellido">Precio<span class="text-danger">*</span></label><br>
+                                                <input type="text" name="precio_producto" parsley-trigger="change" required
+                                                       placeholder="Ingresa Precio" class="form-control" id="precio_producto" value="<?php echo $precio_producto?>">
                                             </div>
                                             <div class="form-group" id="sum">
-                                              <label for ="summernote">Biografia<span class="text-danger">*</span></label>
+                                              <label for ="summernote">Descripción<span class="text-danger"></span></label>
                                               <fieldset>
                                                   <p class="container">
-                                                    <textarea class = "input-block-level" id="summernote" name ="content" rows="2"><?php echo $notas;?></textarea>
+                                                    <textarea class = "input-block-level" id="summernote" name ="content" rows="2"><?php echo $descripcion_producto ?></textarea>
                                                   </p>
                                               </fieldset>
                                             </div>
-
                                             <div class="form-group text-right m-b-0">
-                                                <input value ="Modificar" name="registro" class="btn btn-primary waves-effect waves-light" type="submit">
+                                                <input value ="Modificar" name="registro" class="btn btn-primary" type="submit">
                                                     
-                                                <button type="reset" class="btn btn-default waves-effect m-l-5" onClick="history.go(0)">
+                                                <button type="reset" class="btn btn-default waves-effect m-l-5">
                                                     Cancel
                                                 </button>
-                                                
-                                            </div>
-                                            <div class="form-group text-left m-b-0">
-                                                <input value ="Eliminar" name="eliminar" class="btn btn-danger btn-rounded type="submit" type="submit">
                                             </div>
 
                                         </form>
-                                        
+                                    </div>
 
                                 </div>
                             </div>
@@ -520,12 +385,6 @@
         </div>
         <!-- End #page-wrapper -->
 
-                <!-- Sweet-Alert  -->
-        <script src="assets/plugins/sweet-alert2/sweetalert2.min.js"></script>
-        <script src="assets/pages/jquery.sweet-alert.init.js"></script>
-
-        <!-- App Js -->
-        <script src="assets/js/jquery.app.js"></script>
 
 
         <!-- js placed at the end of the document so the pages load faster -->
@@ -577,3 +436,4 @@
 
     </body>
 </html>
+

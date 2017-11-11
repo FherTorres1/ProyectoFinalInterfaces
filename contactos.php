@@ -4,6 +4,7 @@
     $tipo_empleado = $_GET['tipo'];
     $foto = $_GET['imagen'];
     require("conexion.php");
+
 ?>
 
 <!DOCTYPE html>
@@ -19,7 +20,7 @@
         <link rel="shortcut icon" href="assets/images/favicon.ico">
 
         <!--Morris Chart CSS -->
-    <link rel="stylesheet" href="assets/plugins/morris/morris.css">
+		<link rel="stylesheet" href="assets/plugins/morris/morris.css">
 
         <!-- Bootstrap core CSS -->
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -225,62 +226,7 @@
                             <!--- End User Detail box -->
 
                             <!-- Left Menu Start -->
-                            <ul class="metisMenu nav" id="side-menu">
-                                <li><a href="dashboard_Administrador.php?nom=<?php echo $nombre;?>&tipo=<?php echo$tipo_empleado;?>&imagen=<?php echo $foto;?>"><i class="ti-home"></i> Dashboard </a></li>
-
-                                <li><a href="javascript: void(0);" aria-expanded="true"><i class="mdi mdi-account"></i>Empleados<span class="fa arrow"></span></a>
-                                </span></a>
-                                    <ul class="nav-second-level nav" aria-expanded="true">
-                                        <li><?php echo "<a href='registrar_empleado.php?nom=$nombre&tipo=$tipo_empleado&imagen=$foto'>Registrar Empleado</a>";?></li>
-                                        <li><a href="modificar_empleado.php?nom=<?php echo $nombre;?>&tipo=<?php echo $tipo_empleado;?> &imagen=<?php echo $foto;?>">Modificar/Eliminar Empleado</a></li>
-                                    </ul>
-
-                                <li>
-                                    <a href="javascript: void(0);" aria-expanded="true"><i class="mdi mdi-food-variant"></i> Menu<span class="fa arrow"></span></a>
-                                    <ul class="nav-second-level nav" aria-expanded="true">
-                                        <li><a href="registrar_productos_menu.php?nom=<?php echo $nombre;?>&tipo=<?php echo $tipo_empleado;?> &imagen=<?php echo $foto;?>">Nuevo Producto</a></li>
-                                        <li><a href="components-alerts.html">Modificar/Eliminar Producto</a></li>
-                                    </ul>
-                                </li>
-                                <li>
-                                    <a href="javascript: void(0);" aria-expanded="true"><i class="mdi mdi-food-variant"></i> Ingredientes<span class="fa arrow"></span></a>
-                                    <ul class="nav-second-level nav" aria-expanded="true">
-                                        <li><a href="components-range-slider.html">Insertar Producto</a></li>
-                                        <li><a href="components-alerts.html">Modificar/Eliminar Producto</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </div>
-                    </div><!--Scrollbar wrapper-->
-                </aside>
-                <!--left navigation end-->
-
-
-           
-            <!-- Page content start -->
-            <div class="page-contentbar">
-
-                <!--left navigation start-->
-                <aside class="sidebar-navigation">
-                    <div class="scrollbar-wrapper">
-                        <div>
-                            <button type="button" class="button-menu-mobile btn-mobile-view visible-xs visible-sm">
-                                <i class="mdi mdi-close"></i>
-                            </button>
-                            <!-- User Detail box -->
-                            <div class="user-details">
-                                <div class="pull-left">
-                                    <img src="assets/images/users/<?php echo $foto;?>" alt="" class="thumb-md img-circle">
-                                </div>
-                                <div class="user-info">
-                                    <a href="#"><?php echo $nombre;?></a>
-                                    <p class="text-muted m-0"><?php echo $tipo_empleado; ?></p>
-                                </div>
-                            </div>
-                            <!--- End User Detail box -->
-
-                            <!-- Left Menu Start -->
-                            <ul class="metisMenu nav" id="side-menu">
+                             <ul class="metisMenu nav" id="side-menu">
                                 <li><a href="dashboard_Administrador.php?nom=<?php echo $nombre;?>&tipo=<?php echo$tipo_empleado;?>&imagen=<?php echo $foto;?>"><i class="ti-home"></i> Dashboard </a></li>
 
                                 <li><a href="javascript: void(0);" aria-expanded="true"><i class="mdi mdi-account"></i>Empleados<span class="fa arrow"></span></a>
@@ -320,317 +266,68 @@
                             </div>
                         </div> <!-- end row -->
 
+                    <div class='row'>
+                        <?php
+	                        $query = "SELECT * FROM empleado where activo = 1";
+							$resultado = mysqli_query($conexion,$query);
+							while($fila = mysqli_fetch_array($resultado))
+							{
+								$id_contacto = $fila[0];
+								$nombre_contacto = $fila[1];
+								$apellido_contacto = $fila[2];
+								$telefono_contacto = $fila[4];
+								$correo_contacto = $fila[5];
+								$tipo_contacto = $fila[6];
+								$imagen_contacto = $fila['imagen'];
 
-                        <div class="row">
-                        	<div class="col-md-4">
-                        		<div class="text-center card-box">
-                                    <div class="dropdown pull-right">
-                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
-                                            <h3 class="m-0 text-muted"><i class="mdi mdi-dots-horizontal"></i></h3>
-                                        </a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Edit</a></li>
-                                            <li><a href="#">Delete</a></li>
-                                            <li><a href="#">Block</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="member-card">
-                                        <span class="user-badge bg-warning">Founder</span>
-                                        <div class="thumb-xl member-thumb m-b-10 center-block">
-                                            <img src="assets/images/users/avatar-1.jpg" class="img-circle img-thumbnail" alt="profile-image">
-                                            <i class="mdi mdi-information-outline member-star text-success" title="verified user"></i>
-                                        </div>
+								echo"
+                        				<div class='col-md-4'>
+                        					<div class='text-center card-box'>
+	                                    		<div class='clearfix'></div>
+	                                    			<div class='member-card'>
+	                                        			<span class='user-badge bg-warning'>$tipo_contacto</span>
+	                                        			<div class='thumb-xl member-thumb m-b-10 center-block'>
+	                                            			<img src='assets/images/users/$imagen_contacto' class='img-circle img-thumbnail' alt='profile-image'>
+	                                            			<i class='mdi mdi-information-outline member-star text-success' title='verified user'></i>
+	                                        			</div>
 
-                                        <div class="">
-                                            <h4 class="m-b-5">Kendra V. Alfaro</h4>
-                                            <p class="text-muted">@CEO <span> | </span> <span> <a href="#" class="text-pink">websitename.com</a> </span></p>
-                                        </div>
+	                                        			<div class=''>
+	                                            		<h4 class='m-b-5'>$nombre_contacto $apellido_contacto</h4>
+	                                            		<p class='text-muted'>$correo_contacto <span> | </span> <span> <a class='text-pink'>$telefono_contacto</a> </span></p>
+	                                        			</div>
 
-                                        <p class="text-muted font-13">
-                                            Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
-                                        </p>
+	                                        			<p class='text-muted font-13'>
+	                                            			¡Hola!, soy $nombre_contacto, soy $tipo_contacto del café María Bonita y su sistema.
+	                                        			</p>
+	                                        			<button type='button' class='btn btn-default btn-sm m-t-10'>Message</button>
+		                                        		<a href='visit_profile.php?nom=$nombre&tipo=$tipo_empleado&imagen=$foto&id_profile=$id_contacto'<button type='button' class='btn btn-default btn-sm m-t-10'>View Profile</button></a>
 
-                                        <button type="button" class="btn btn-default btn-sm m-t-10">Message</button>
-                                        <button type="button" class="btn btn-default btn-sm m-t-10">View Profile</button>
+	                                        			<ul class='social-links list-inline m-t-30'>
+	                                            			<li>
+	                                                			<a title='' data-placement='top' data-toggle='tooltip' class='tooltips' href='' data-original-title='Facebook'><i class='fa fa-facebook'></i></a>
+	                                            			</li>
+	                                            			<li>
+	                                                			<a title='' data-placement='top' data-toggle='tooltip' class='tooltips' href='' data-original-title='Twitter'><i class='fa fa-twitter'></i></a>
+	                                            			</li>
+	                                            			<li>
+	                                                			<a title='' data-placement='top' data-toggle='tooltip' class='tooltips' href='' data-original-title='Skype'><i class='fa fa-skype'></i></a>
+	                                            			</li>
+	                                        			</ul>
 
-                                        <ul class="social-links list-inline m-t-30">
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a>
-                                            </li>
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a>
-                                            </li>
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a>
-                                            </li>
-                                        </ul>
+	                                   				</div>
 
-                                    </div>
+                                				</div>
 
-                                </div>
-
-                            </div> <!-- end col -->
-
-                            <div class="col-md-4">
-                        		<div class="text-center card-box">
-                                    <div class="dropdown pull-right">
-                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
-                                            <h3 class="m-0 text-muted"><i class="mdi mdi-dots-horizontal"></i></h3>
-                                        </a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Edit</a></li>
-                                            <li><a href="#">Delete</a></li>
-                                            <li><a href="#">Block</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="member-card">
-                                        <div class="thumb-xl member-thumb m-b-10 center-block">
-                                            <img src="assets/images/users/avatar-2.jpg" class="img-circle img-thumbnail" alt="profile-image">
-                                            <i class="mdi mdi-information-outline member-star text-muted" title="unverified user"></i>
-                                        </div>
-
-                                        <div class="">
-                                            <h4 class="m-b-5">Mark A. McKnight</h4>
-                                            <p class="text-muted">@Founder <span> | </span> <span> <a href="#" class="text-pink">websitename.com</a> </span></p>
-                                        </div>
-
-                                        <p class="text-muted font-13">
-                                            Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
-                                        </p>
-
-                                        <button type="button" class="btn btn-default btn-sm m-t-10">Message</button>
-                                        <button type="button" class="btn btn-default btn-sm m-t-10">View Profile</button>
-
-                                        <ul class="social-links list-inline m-t-30">
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a>
-                                            </li>
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a>
-                                            </li>
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a>
-                                            </li>
-                                        </ul>
-
-                                    </div>
-
-                                </div>
-
-                            </div> <!-- end col -->
-
-                            <div class="col-md-4">
-                        		<div class="text-center card-box">
-                                    <div class="dropdown pull-right">
-                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
-                                            <h3 class="m-0 text-muted"><i class="mdi mdi-dots-horizontal"></i></h3>
-                                        </a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Edit</a></li>
-                                            <li><a href="#">Delete</a></li>
-                                            <li><a href="#">Block</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="member-card">
-                                        <div class="thumb-xl member-thumb m-b-10 center-block">
-                                            <img src="assets/images/users/avatar-3.jpg" class="img-circle img-thumbnail" alt="profile-image">
-                                            <i class="mdi mdi-information-outline member-star text-success" title="verified user"></i>
-                                        </div>
-
-                                        <div class="">
-                                            <h4 class="m-b-5">Robert E. Schroth</h4>
-                                            <p class="text-muted">@Webdesigner <span> | </span> <span> <a href="#" class="text-pink">websitename.com</a> </span></p>
-                                        </div>
-
-                                        <p class="text-muted font-13">
-                                            Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
-                                        </p>
-
-                                        <button type="button" class="btn btn-default btn-sm m-t-10">Message</button>
-                                        <button type="button" class="btn btn-default btn-sm m-t-10">View Profile</button>
-
-                                        <ul class="social-links list-inline m-t-30">
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a>
-                                            </li>
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a>
-                                            </li>
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a>
-                                            </li>
-                                        </ul>
-
-                                    </div>
-
-                                </div>
-
-                            </div> <!-- end col -->
-                        </div>
-                        <!-- end row -->
+                            			</div> <!-- end col -->";
 
 
 
-                        <div class="row">
-                        	<div class="col-md-4">
-                        		<div class="text-center card-box">
-                                    <div class="dropdown pull-right">
-                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
-                                            <h3 class="m-0 text-muted"><i class="mdi mdi-dots-horizontal"></i></h3>
-                                        </a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Edit</a></li>
-                                            <li><a href="#">Delete</a></li>
-                                            <li><a href="#">Block</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="member-card">
-                                        <div class="thumb-xl member-thumb m-b-10 center-block">
-                                            <img src="assets/images/users/avatar-4.jpg" class="img-circle img-thumbnail" alt="profile-image">
-                                            <i class="mdi mdi-information-outline member-star text-muted" title="unverified user"></i>
-                                        </div>
 
-                                        <div class="">
-                                            <h4 class="m-b-5">Sandra D. Duby</h4>
-                                            <p class="text-muted">@Manager <span> | </span> <span> <a href="#" class="text-pink">websitename.com</a> </span></p>
-                                        </div>
+							}
+	                    ?>
+                        
+                    </div><!-- end row -->
 
-                                        <p class="text-muted font-13">
-                                            Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
-                                        </p>
-
-                                        <button type="button" class="btn btn-default btn-sm m-t-10">Message</button>
-                                        <button type="button" class="btn btn-default btn-sm m-t-10">View Profile</button>
-
-                                        <ul class="social-links list-inline m-t-30">
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a>
-                                            </li>
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a>
-                                            </li>
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a>
-                                            </li>
-                                        </ul>
-
-                                    </div>
-
-                                </div>
-
-                            </div> <!-- end col -->
-
-                            <div class="col-md-4">
-                        		<div class="text-center card-box">
-                                    <div class="dropdown pull-right">
-                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
-                                            <h3 class="m-0 text-muted"><i class="mdi mdi-dots-horizontal"></i></h3>
-                                        </a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Edit</a></li>
-                                            <li><a href="#">Delete</a></li>
-                                            <li><a href="#">Block</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="member-card">
-                                        <span class="user-badge bg-custom">Co-Founder</span>
-                                        <div class="thumb-xl member-thumb m-b-10 center-block">
-                                            <img src="assets/images/users/avatar-5.jpg" class="img-circle img-thumbnail" alt="profile-image">
-                                            <i class="mdi mdi-information-outline member-star text-success" title="verified user"></i>
-                                        </div>
-
-                                        <div class="">
-                                            <h4 class="m-b-5">Edmund D. Barton</h4>
-                                            <p class="text-muted">@Webdeveloper <span> | </span> <span> <a href="#" class="text-pink">websitename.com</a> </span></p>
-                                        </div>
-
-                                        <p class="text-muted font-13">
-                                            Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
-                                        </p>
-
-                                        <button type="button" class="btn btn-default btn-sm m-t-10">Message</button>
-                                        <button type="button" class="btn btn-default btn-sm m-t-10">View Profile</button>
-
-                                        <ul class="social-links list-inline m-t-30">
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a>
-                                            </li>
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a>
-                                            </li>
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a>
-                                            </li>
-                                        </ul>
-
-                                    </div>
-
-                                </div>
-
-                            </div> <!-- end col -->
-
-                            <div class="col-md-4">
-                        		<div class="text-center card-box">
-                                    <div class="dropdown pull-right">
-                                        <a href="#" class="dropdown-toggle card-drop" data-toggle="dropdown" aria-expanded="false">
-                                            <h3 class="m-0 text-muted"><i class="mdi mdi-dots-horizontal"></i></h3>
-                                        </a>
-                                        <ul class="dropdown-menu" role="menu">
-                                            <li><a href="#">Edit</a></li>
-                                            <li><a href="#">Delete</a></li>
-                                            <li><a href="#">Block</a></li>
-                                        </ul>
-                                    </div>
-                                    <div class="clearfix"></div>
-                                    <div class="member-card">
-                                        <div class="thumb-xl member-thumb m-b-10 center-block">
-                                            <img src="assets/images/users/avatar-6.jpg" class="img-circle img-thumbnail" alt="profile-image">
-                                            <i class="mdi mdi-information-outline member-star text-success" title="verified user"></i>
-                                        </div>
-
-                                        <div class="">
-                                            <h4 class="m-b-5">Janene C. Cox</h4>
-                                            <p class="text-muted">@Product Manager <span> | </span> <span> <a href="#" class="text-pink">websitename.com</a> </span></p>
-                                        </div>
-
-                                        <p class="text-muted font-13">
-                                            Hi I'm Johnathn Deo,has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type.
-                                        </p>
-
-                                        <button type="button" class="btn btn-default btn-sm m-t-10">Message</button>
-                                        <button type="button" class="btn btn-default btn-sm m-t-10">View Profile</button>
-
-                                        <ul class="social-links list-inline m-t-30">
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Facebook"><i class="fa fa-facebook"></i></a>
-                                            </li>
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Twitter"><i class="fa fa-twitter"></i></a>
-                                            </li>
-                                            <li>
-                                                <a title="" data-placement="top" data-toggle="tooltip" class="tooltips" href="" data-original-title="Skype"><i class="fa fa-skype"></i></a>
-                                            </li>
-                                        </ul>
-
-                                    </div>
-
-                                </div>
-
-                            </div> <!-- end col -->
-                        </div>
-                        <!-- end row -->
-
-                        <div class="row">
-                        	<div class="col-sm-12 text-center">
-                                <button class="btn btn-primary btn-rounded btn-lg m-b-30" data-toggle="modal" data-target="#add-contact">Add Contact</button>
-                            </div><!-- end col -->
-                        </div>
-                        <!-- end row -->
 
                     </div>
                     <!-- end container -->
@@ -698,6 +395,12 @@
         <script src="assets/js/bootstrap.min.js"></script>
         <script src="assets/js/metisMenu.min.js"></script>
         <script src="assets/js/jquery.slimscroll.min.js"></script>
+        <!-- Dashboard init -->
+		<script src="assets/pages/jquery.dashboard.js"></script>
+
+		<!--Morris Chart-->
+		<script src="assets/plugins/morris/morris.min.js"></script>
+		<script src="assets/plugins/raphael/raphael-min.js"></script>
 
         <!-- App Js -->
         <script src="assets/js/jquery.app.js"></script>
